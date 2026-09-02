@@ -1,3 +1,4 @@
+
 import React, { useState, useEffect } from 'react';
 import { Image as ImageIcon } from 'lucide-react';
 
@@ -21,68 +22,57 @@ export const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({
   aspectRatio = 'aspect-video',
   objectFit = 'cover',
 }) => {
-  // GitHub Pages base path from Vite
   const base = import.meta.env.BASE_URL;
 
-  // Build list of candidate image sources
+  const getPath = (path: string) => {
+    // Keep external URLs unchanged
+    if (
+      path.startsWith('http://') ||
+      path.startsWith('https://') ||
+      path.startsWith('data:')
+    ) {
+      return path;
+    }
+
+    // Remove leading slash before adding Vite's base path
+    const cleanPath = path.replace(/^\/+/, '');
+
+    // Prevent adding BASE_URL twice
+    if (path.startsWith(base)) {
+      return path;
+    }
+
+    return `${base}${cleanPath}`;
+  };
+
   const getCandidateSources = () => {
     const list: string[] = [];
 
     if (src) {
-      // Convert /assets/... into the correct GitHub Pages path
-      if (src.startsWith('/assets/')) {
-        const githubPath = `${base}${src.substring(1)}`;
-
-        if (!list.includes(githubPath)) {
-          list.push(githubPath);
-        }
-      } else {
-        if (!list.includes(src)) {
-          list.push(src);
-        }
-      }
+      list.push(getPath(src));
     }
 
     if (fallbackName) {
-      // Direct filename
-      if (!list.includes(fallbackName)) {
-        list.push(fallbackName);
-      }
-
-      // /assets/images/...
-      const imagePath = `${base}assets/images/${fallbackName}`;
-
-      if (!list.includes(imagePath)) {
-        list.push(imagePath);
-      }
-
-      // assets/images/...
-      const relativePath = `assets/images/${fallbackName}`;
-
-      if (!list.includes(relativePath)) {
-        list.push(relativePath);
-      }
-
-      // Common image subfolders
-      const subfolders = [
-        'academy',
-        'hero',
-        'women',
-        'map',
-        'palestine',
-        'heritage',
-        'food',
-        'literature',
-        'memory',
-        'ending',
+      const candidates = [
+        fallbackName,
+        `assets/images/${fallbackName}`,
+        `assets/images/academy/${fallbackName}`,
+        `assets/images/hero/${fallbackName}`,
+        `assets/images/women/${fallbackName}`,
+        `assets/images/map/${fallbackName}`,
+        `assets/images/palestine/${fallbackName}`,
+        `assets/images/heritage/${fallbackName}`,
+        `assets/images/food/${fallbackName}`,
+        `assets/images/literature/${fallbackName}`,
+        `assets/images/memory/${fallbackName}`,
+        `assets/images/ending/${fallbackName}`,
       ];
 
-      for (const folder of subfolders) {
-        const folderPath =
-          `${base}assets/images/${folder}/${fallbackName}`;
+      for (const candidate of candidates) {
+        const path = getPath(candidate);
 
-        if (!list.includes(folderPath)) {
-          list.push(folderPath);
+        if (!list.includes(path)) {
+          list.push(path);
         }
       }
     }
@@ -132,14 +122,12 @@ export const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({
               objectFit === 'contain'
                 ? 'object-contain'
                 : 'object-cover'
-            } ${
-              isLoaded ? 'opacity-100' : 'opacity-0'
-            } ${className}`}
+            } ${isLoaded ? 'opacity-100' : 'opacity-0'} ${className}`}
           />
 
           {!isLoaded && (
             <div className="absolute inset-0 flex flex-col items-center justify-center bg-[#FAF8F5]/80 backdrop-blur-xs text-center p-4">
-              <div className="w-8 h-8 rounded-full border-2 border-[#581C87]/40 border-t-[#581C87] animate-spin mb-2"></div>
+              <div className="w-8 h-8 rounded-full border-2 border-[#581C87]/40 border-t-[#581C87] animate-spin mb-2" />
 
               <span className="text-xs text-[#3B4D3C] font-medium">
                 {alt}
@@ -164,8 +152,7 @@ export const ImageWithFallback: React.FC<ImageWithFallbackProps> = ({
           )}
 
           <div className="mt-2 flex items-center gap-1 text-[10px] text-[#9E2A2B]/80 font-medium">
-            <span className="w-1.5 h-1.5 rounded-full bg-[#1D3B24]"></span>
-
+            <span className="w-1.5 h-1.5 rounded-full bg-[#1D3B24]" />
             <span>مساحة مخصصة للصورة المرفوعة</span>
           </div>
         </div>

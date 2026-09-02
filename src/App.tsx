@@ -47,18 +47,12 @@ export const App: React.FC = () => {
       */}
       <div className="fixed inset-0 pointer-events-none z-0 overflow-hidden bg-[#FAF8F5]">
         <div className="absolute inset-0 opacity-[0.75] sm:opacity-[0.85]">
-          <img
-            src="/assets/images/02-background-girl-olive-tree.jpg"
-            alt="خلفية الموقع - زيتون فلسطين"
-            referrerPolicy="no-referrer"
-            className="w-full h-full object-cover object-center fixed inset-0"
-            onError={(e) => {
-              const target = e.currentTarget;
-              if (!target.src.includes('background.jpg')) {
-                target.src = '/assets/images/background.jpg';
-              }
-            }}
-          />
+         <img
+  src={`${import.meta.env.BASE_URL}assets/images/02-background-girl-olive-tree.jpg`}
+  alt="خلفية الموقع - زيتون فلسطين"
+  referrerPolicy="no-referrer"
+  className="w-full h-full object-cover object-center fixed inset-0"
+/>
         </div>
         {/* Soft warm gradient wash for pristine typography readability */}
         <div className="absolute inset-0 bg-gradient-to-b from-[#FAF8F5]/30 via-[#FAF8F5]/30 to-[#FAF8F5]/40"></div>
