@@ -1,0 +1,6 @@
+{
+  "name": "حكايتها فلسطين",
+  "description": "مشروع ثقافي وتوعوي يمزج بين الهوية الفلسطينية ورسالة أكاديمية فجر لتكوين المرأة الرسالية وصناعة الأثر.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
