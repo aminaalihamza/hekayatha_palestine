@@ -7,7 +7,7 @@ export default defineConfig(() => {
   return {
     plugins: [react(), tailwindcss()],
 
-    base: '/hekayatha_palestine/',
+    base: '/',
 
     resolve: {
       alias: {
